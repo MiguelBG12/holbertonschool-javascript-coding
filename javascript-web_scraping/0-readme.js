@@ -12,10 +12,10 @@ if (process.argv.length !== 3) {
 const filePath = process.argv[2];
 
 // Read the content of the file in utf-8 encoding
-fs.readFile(filePath, 'utf-8', (err, data) => {
+fs.readFile(filePath, (err, data) => {
   if (err) {
     console.error(err); // Display the error if one occurs
   } else {
-    console.log(data); // Display the file content if there are no errors
+    console.log(data.toString()); // Display the file content if there are no errors
   }
 });

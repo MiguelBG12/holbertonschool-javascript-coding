@@ -5,7 +5,7 @@ const fs = require('fs');
 
 // Check if the correct number of arguments (2) is provided in the command line
 if (process.argv.length !== 4) {
-  console.error('Usage: node get_and_store_webpage.js <URL> <file_path>');
+  console.error('Usage: node 5-request_store.js <URL> <file_path>');
   process.exit(1); // Exit with a status code of 1 to indicate an error
 }
 
@@ -25,8 +25,6 @@ request(url, (error, response, body) => {
       if (err) {
         console.error(`Error writing to the file: ${err}`);
         process.exit(1);
-      } else {
-        console.log(`Webpage content saved to ${filePath}`);
       }
     });
   } else {

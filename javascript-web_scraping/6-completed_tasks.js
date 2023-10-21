@@ -29,7 +29,7 @@ request(apiUrl, (error, response, body) => {
       }
     });
 
-    // Print the completed tasks object as JSON
+    // Print the completed tasks object as JSON with indentation
     console.log(JSON.stringify(completedTasksByUser, null, 2));
   } else {
     console.error(`Error: Failed to retrieve task data. Status code: ${response.statusCode}`);

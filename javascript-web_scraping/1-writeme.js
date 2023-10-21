@@ -17,6 +17,7 @@ try {
   // Use 'fs.writeFileSync' to write the file in utf-8 format
   fs.writeFileSync(filePath, stringToWrite, 'utf-8');
   console.log(`Data written to ${filePath}`);
+  console.log(stringToWrite); // Add this line to display the written content
 } catch (error) {
   // Handle any errors that may occur during writing and print the error object
   console.error(error);

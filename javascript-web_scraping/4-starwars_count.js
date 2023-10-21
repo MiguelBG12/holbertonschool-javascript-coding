@@ -21,23 +21,27 @@ request.get(apiUrl, (error, response, body) => {
   if (response.statusCode === 200) { // Check if the response status code is 200 (OK)
     const filmsData = JSON.parse(body); // Parse the JSON response
 
-    // Find "Wedge Antilles" (character ID 18) in the list of characters in the films
-    const characterUrl = 'https://swapi-api.hbtn.io/api/people/18/';
+    // Ensure that "results" is an array before trying to filter it
+    if (Array.isArray(filmsData.results)) {
+      const characterUrl = 'https://swapi-api.hbtn.io/api/people/18/';
 
-    // Count the number of films where "Wedge Antilles" is present
-    const numFilmsWithWedgeAntilles = filmsData.results.reduce((count, film) => {
-      if (film.characters.includes(characterUrl)) {
-        return count + 1;
-      }
-      return count;
-    }, 0);
+      // Count the number of films where "Wedge Antilles" is present
+      const numFilmsWithWedgeAntilles = filmsData.results.reduce((count, film) => {
+        if (film.characters.includes(characterUrl)) {
+          return count + 1;
+        }
+        return count;
+      }, 0);
 
-    // Print the number of films where "Wedge Antilles" is present
-    console.log(numFilmsWithWedgeAntilles);
+      // Print the number of films where "Wedge Antilles" is present
+      console.log(numFilmsWithWedgeAntilles);
+    } else {
+      console.error('Error: Unexpected response format. "results" is not an array.');
+      process.exit(1);
+    }
   } else {
     // Print an error message for unsuccessful requests
     console.error(`Error: Failed to retrieve films data. Status code: ${response.statusCode}`);
     process.exit(1); // Exit with a status code of 1 to indicate an error
   }
 });
-

@@ -1,47 +1,35 @@
 #!/usr/bin/node
 
-const request = require('request'); // Import the 'request' module to make HTTP requests
+// Import the 'request' module to make HTTP requests
+const request = require('request');
 
-// Check if the correct number of arguments (2) is provided in the command line
-if (process.argv.length !== 3) {
-  console.error('Usage: node 4-starwars_count.js <API_URL>');
-  process.exit(1); // Exit with a status code of 1 to indicate an error
-}
+// Get the API URL as a command-line argument
+const url = process.argv[2];
 
-const apiUrl = process.argv[2]; // Get the API URL from the command line arguments
-
-// Make a GET request to the provided API URL
-request.get(apiUrl, (error, response, body) => {
-  // Check if an error occurred during the request
+// Make an HTTP request to the provided URL
+request(url, (error, res, body) => {
   if (error) {
-    console.error(error); // Print the error message
-    process.exit(1); // Exit with a status code of 1 to indicate an error
-  }
-
-  if (response.statusCode === 200) { // Check if the response status code is 200 (OK)
-    const filmsData = JSON.parse(body); // Parse the JSON response
-
-    // Ensure that "results" is an array before trying to filter it
-    if (Array.isArray(filmsData.results)) {
-      const characterUrl = 'https://swapi-api.hbtn.io/api/people/18/';
-
-      // Count the number of films where "Wedge Antilles" is present
-      const numFilmsWithWedgeAntilles = filmsData.results.reduce((count, film) => {
-        if (film.characters.includes(characterUrl)) {
-          return count + 1;
-        }
-        return count;
-      }, 0);
-
-      // Print the number of films where "Wedge Antilles" is present
-      console.log(numFilmsWithWedgeAntilles);
-    } else {
-      console.error('Error: Unexpected response format. "results" is not an array.');
-      process.exit(1);
-    }
+    console.error(error); // Print an error message if the request fails
   } else {
-    // Print an error message for unsuccessful requests
-    console.error(`Error: Failed to retrieve films data. Status code: ${response.statusCode}`);
-    process.exit(1); // Exit with a status code of 1 to indicate an error
+    // Parse the response body as JSON
+    const data = JSON.parse(body);
+
+    let i = 0;
+    let count = 0;
+
+    // Iterate through the list of results in the JSON response
+    while (data.results[i]) {
+      // Iterate through the characters in each film
+      data.results[i].characters.forEach((characterUrl) => {
+        // Check if the character URL ends with '/18/' (character ID for Wedge Antilles)
+        if (characterUrl.endsWith('/18/')) {
+          count++; // Increment the count if Wedge Antilles is present
+        }
+      });
+      i++;
+    }
+
+    // Print the total count of films where Wedge Antilles is present
+    console.log(count);
   }
 });

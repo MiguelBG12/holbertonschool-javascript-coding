@@ -13,12 +13,11 @@ if (process.argv.length !== 4) {
 const filePath = process.argv[2];
 const stringToWrite = process.argv[3];
 
-// Use 'fs.promises.writeFile' to write the file in utf-8 format
-fs.promises.writeFile(filePath, stringToWrite, 'utf-8')
-  .then(() => {
-    console.log(`Data written to ${filePath}`);
-  })
-  .catch((error) => {
-    // Handle any errors that may occur during writing and print the error object
-    console.error(error);
-  });
+try {
+  // Use 'fs.writeFileSync' to write the file in utf-8 format
+  fs.writeFileSync(filePath, stringToWrite, 'utf-8');
+  console.log(`Data written to ${filePath}`);
+} catch (error) {
+  // Handle any errors that may occur during writing and print the error object
+  console.error(error);
+}

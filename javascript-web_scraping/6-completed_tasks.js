@@ -1,20 +1,18 @@
 #!/usr/bin/node
 
-// Import the 'request' module for making HTTP requests
 const request = require('request');
 
-// Define the API URL to fetch JSON data
-const apiUrl = 'https://jsonplaceholder.typicode.com/todos';
+// Define the API URL for the JSON data
+const apiUrl = process.argv[2]; // Get the API URL from the command line argument
 
 // Make a GET request to the API URL
 request(apiUrl, (error, response, body) => {
   if (error) {
     console.error(`Error: ${error}`);
-    process.exit(1); // Exit the script with a status code of 1 to indicate an error
+    process.exit(1);
   }
 
   if (response.statusCode === 200) {
-    // Parse the response body as JSON
     const todos = JSON.parse(body);
 
     // Create an object to store the count of completed tasks for each user
@@ -31,12 +29,10 @@ request(apiUrl, (error, response, body) => {
       }
     });
 
-    // Print the users with completed tasks
-    for (const userId in completedTasksByUser) {
-      console.log(`User ${userId} has completed ${completedTasksByUser[userId]} task(s).`);
-    }
+    // Print the completed tasks object as JSON
+    console.log(JSON.stringify(completedTasksByUser, null, 2));
   } else {
     console.error(`Error: Failed to retrieve task data. Status code: ${response.statusCode}`);
-    process.exit(1); // Exit the script with a status code of 1 to indicate an error
+    process.exit(1);
   }
 });

@@ -28,7 +28,7 @@ request.get(url, (error, response, body) => {
     // Print the title of the movie
     console.log(movieData.title);
   } else {
-    // Print an error message for unsuccessful requests
+    // Print an error message for unsuccessful requests.
     console.error(`Error: Failed to retrieve movie data. Status code: ${response.statusCode}`);
     process.exit(1);
   }

@@ -16,7 +16,6 @@ const stringToWrite = process.argv[3];
 try {
   // Use 'fs.writeFileSync' to write the file in utf-8 format
   fs.writeFileSync(filePath, stringToWrite, 'utf-8');
-  console.log(stringToWrite);
 } catch (error) {
   // Handle any errors that may occur during writing and print the error object
   console.error(error);

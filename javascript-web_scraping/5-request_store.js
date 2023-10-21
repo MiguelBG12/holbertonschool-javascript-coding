@@ -1,7 +1,11 @@
 #!/usr/bin/node
 
+// Import the 'request' module for making HTTP requests
 const request = require('request');
+
+// Import the 'fs' module for working with the file system
 const fs = require('fs');
+
 
 // Check if the correct number of arguments (2) is provided in the command line
 if (process.argv.length !== 4) {

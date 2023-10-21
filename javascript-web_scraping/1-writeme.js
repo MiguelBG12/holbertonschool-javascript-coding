@@ -1,4 +1,6 @@
 #!/usr/bin/node
+
+process.env.NODE_NO_WARNINGS = 1
 // Import the 'fs' module to work with the file system
 const fs = require('fs');
 

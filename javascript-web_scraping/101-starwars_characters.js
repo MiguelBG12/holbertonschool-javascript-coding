@@ -27,7 +27,7 @@ request(apiUrl, (error, response, body) => {
     let characterCount = 0;
 
     // Define a function to print character names
-    function printCharacterName() {
+    function printCharacterName () {
       // Check if there are more characters to print
       if (characterCount < characterUrls.length) {
         // Get the URL of the next character

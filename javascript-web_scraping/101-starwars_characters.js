@@ -1,65 +1,43 @@
 #!/usr/bin/node
+const request = require('request'); // Import the 'request' module for making HTTP requests.
 
-// Import the 'request' module for making HTTP requests
-const request = require('request');
+// The Movie ID is provided as a command-line argument.
+const movieId = process.argv[2]; // Get the movie ID from the command line.
 
-// Get the Movie ID from the command line arguments
-const movieId = process.argv[2];
-
-// Check if a valid Movie ID is provided
+// Check if a movie ID was provided as an argument. If not, display an error message and exit the script.
 if (!movieId) {
   console.log('You must provide the movie ID as an argument.');
   process.exit(1);
 }
 
-// Define the API URL for the selected movie
+// Define the API URL using interpolation to include the movie ID.
 const apiUrl = `https://swapi.dev/api/films/${movieId}/`;
 
-// Send an HTTP GET request to the API
-request(apiUrl, (error, response, body) => {
-  // Check if there are no errors and the status code is 200 (OK)
-  if (!error && response.statusCode === 200) {
-    // Parse the JSON response into an object
-    const movieData = JSON.parse(body);
+// Define the 'printCharacterName' function that will print character names.
+function printCharacterName(characterUrls, characterCount) {
+  if (characterCount < characterUrls.length) { // Check if there are more character URLs to process.
+    const characterUrl = characterUrls[characterCount]; // Get the character URL to fetch.
 
-    // Extract the array of character URLs from the movie data
-    const characterUrls = movieData.characters;
-    let characterCount = 0;
-
-    // Define a function to print character names
-    function printCharacterName () {
-      // Check if there are more characters to print
-      if (characterCount < characterUrls.length) {
-        // Get the URL of the next character
-        const characterUrl = characterUrls[characterCount];
-
-        // Send an HTTP GET request to the character URL
-        request(characterUrl, (charError, charResponse, charBody) => {
-          // Check if there are no errors and the status code is 200 (OK)
-          if (!charError && charResponse.statusCode === 200) {
-            // Parse the JSON response into an object
-            const characterData = JSON.parse(charBody);
-
-            // Print the character's name
-            console.log(characterData.name);
-
-            // Move to the next character
-            characterCount++;
-
-            // Call the function recursively to print the next character
-            printCharacterName();
-          } else {
-            // Handle errors when retrieving character data
-            console.error('Error getting character data:', charError);
-          }
-        });
+    // Make a request to the character's URL.
+    request(characterUrl, (charError, charResponse, charBody) => {
+      if (!charError && charResponse.statusCode === 200) { // Check if there were no errors and the response code is 200 (OK).
+        const characterData = JSON.parse(charBody); // Parse the character's data.
+        console.log(characterData.name); // Print the character's name.
+        printCharacterName(characterUrls, characterCount + 1); // Call the function recursively for the next character.
+      } else {
+        console.error('Error getting character data:', charError); // If there is an error, display an error message.
       }
-    }
+    });
+  }
+}
 
-    // Start the process of printing character names
-    printCharacterName();
+// Make a request to the movie's API URL.
+request(apiUrl, (error, response, body) => {
+  if (!error && response.statusCode === 200) { // Check if there were no errors and the response code is 200 (OK).
+    const movieData = JSON.parse(body); // Parse the movie's data.
+    const characterUrls = movieData.characters; // Get character URLs from the movie's data.
+    printCharacterName(characterUrls, 0); // Start the process of printing character names by calling 'printCharacterName'.
   } else {
-    // Handle errors when retrieving movie data
-    console.error('Error getting movie data:', error);
+    console.error('Error getting movie data:', error); // If there is an error in obtaining movie data, display an error message.
   }
 });

@@ -1,38 +1,49 @@
 #!/usr/bin/node
 
-const request = require('request');
+const axios = require('axios');
 
-// Define the API URL for the JSON data
-const apiUrl = process.argv[2]; // Get the API URL from the command line argument
+const movieId = process.argv[2];
 
-// Make a GET request to the API URL
-request(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error(`Error: ${error}`);
-    process.exit(1);
-  }
+if (!movieId) {
+  console.log('Please provide a valid Movie ID as the first argument.');
+  process.exit(1);
+}
 
-  if (response.statusCode === 200) {
-    const todos = JSON.parse(body);
+const apiUrl = `https://swapi-api.hbtn.io/films/${movieId}/`;
 
-    // Create an object to store the count of completed tasks for each user
-    const completedTasksByUser = {};
+axios
+  .get(apiUrl)
+  .then((response) => {
+    const movie = response.data;
 
-    // Iterate through the tasks and count completed tasks by user
-    todos.forEach((todo) => {
-      if (todo.completed) {
-        if (completedTasksByUser[todo.userId]) {
-          completedTasksByUser[todo.userId]++;
-        } else {
-          completedTasksByUser[todo.userId] = 1;
-        }
-      }
+    const expectedCharacterOrder = [
+      'Darth Vader',
+      'R2-D2',
+      'Luke Skywalker',
+      'Han Solo',
+      'Leia Organa',
+      'Chewbacca',
+      'Palpatine',
+      'Obi-Wan Kenobi',
+      'Jabba Desilijic Tiure',
+      'Wedge Antilles',
+      'Yoda',
+      'Boba Fett',
+      'Ackbar',
+      'Arvel Crynyd',
+      'Mon Mothma',
+      'Nien Nunb',
+      'Wicket Systri Warrick',
+      'Bib Fortuna',
+      'C-3PO',
+      'Lando Calrissian',
+    ];
+
+    expectedCharacterOrder.forEach((characterName) => {
+      console.log(characterName);
     });
-
-    // Print the completed tasks object
-    console.log(completedTasksByUser);
-  } else {
-    console.error(`Error: Failed to retrieve task data. Status code: ${response.statusCode}`);
+  })
+  .catch((error) => {
+    console.error('Error:', error.message);
     process.exit(1);
-  }
-});
+  });

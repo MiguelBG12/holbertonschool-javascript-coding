@@ -14,7 +14,7 @@ if (!movieId) {
 const apiUrl = `https://swapi.dev/api/films/${movieId}/`;
 
 // Define the 'printCharacterName' function that will print character names.
-function printCharacterName(characterUrls, characterCount) {
+function printCharacterName (characterUrls, characterCount) {
   if (characterCount < characterUrls.length) { // Check if there are more character URLs to process.
     const characterUrl = characterUrls[characterCount]; // Get the character URL to fetch.
 

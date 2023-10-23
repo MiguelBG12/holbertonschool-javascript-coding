@@ -15,9 +15,9 @@ axios
   .get(apiUrl)
   .then((response) => {
     const movie = response.data;
-    console.log(`Characters in ${movie.title}:`);
+    const characters = movie.characters;
 
-    const characterPromises = movie.characters.map(characterUrl =>
+    const characterPromises = characters.map(characterUrl =>
       axios.get(characterUrl).then(charResponse => charResponse.data.name)
     );
 

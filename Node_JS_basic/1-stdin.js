@@ -12,13 +12,13 @@ console.log('Welcome to Holberton School, what is your name?');
 
 // Use 'rl.question' to wait for user input.
 rl.question('', (name) => {
-  // After receiving input, display the user's name.
-  console.log(`Your name is: ${name}`);
-  console.log('This important software is now closing');
+  // After receiving input, display the user's name
+  console.log(`Your name is: ${name}\n`);
+  console.log('This important software is now closing\n');
   rl.close(); // Close the 'readline' interface.
 });
 
-// Listen for the 'close' event and exit the program when it occurs.
+// Listen for the 'close' event and exit the program when it occurs
 rl.on('close', () => {
   process.exit(0);
 });

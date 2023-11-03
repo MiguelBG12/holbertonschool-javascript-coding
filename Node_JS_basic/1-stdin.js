@@ -8,7 +8,7 @@ const rl = readline.createInterface({
 });
 
 // Display the welcome message.
-console.log('Welcome to Holberton School, what is your name?');screen
+console.log('Welcome to Holberton School, what is your name?');
 
 // Use 'rl.question' to wait for user input.
 rl.question('', (name) => {

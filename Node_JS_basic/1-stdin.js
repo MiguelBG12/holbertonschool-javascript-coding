@@ -1,24 +1,20 @@
-// Import the 'readline' module to work with input and output.
-const readline = require('readline');
+// Print a welcome message to the console.
+process.stdout.write('Welcome to Holberton School, what is your name?\n');
 
-// Create an instance of 'readline.Interface' to interact with the user via stdin and stdout.
-const rl = readline.createInterface({
-  input: process.stdin, // Specify input as stdin (standard input).
-  output: process.stdout, // Specify output as stdout (standard output).
+// Listen for the 'readable' event on the standard input (stdin).
+process.stdin.on('readable', () => {
+  // Read the data that the user has entered.
+  const chunk = process.stdin.read();
+
+  // Check if there is data (the user has entered something).
+  if (chunk) {
+    // Print the user's name.
+    process.stdout.write(`Your name is: ${chunk}`);
+  }
 });
 
-// Display the welcome message.
-console.log('Welcome to Holberton School, what is your name?');
-
-// Use 'rl.question' to wait for user input.
-rl.question('', (name) => {
-  // After receiving input, display the user's name
-  console.log(`Your name is: ${name}`);
-  console.log('This important software is now closing');
-  rl.close(); // Close the 'readline' interface.
-});
-
-// Listen for the 'close' event and exit the program when it occurs
-rl.on('close', () => {
-  process.exit(0);
+// Listen for the 'end' event on the standard input (stdin).
+process.stdin.on('end', () => {
+  // When the user finishes interacting, display a closing message.
+  process.stdout.write('This important software is now closing\n');
 });

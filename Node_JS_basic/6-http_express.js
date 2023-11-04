@@ -14,4 +14,4 @@ app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`);
 });
 
-module.exports = app; // Export the 'app' Express application instance.
+module.exports = app; // Export the 'app' Express application instance

@@ -14,7 +14,7 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
 
       // Parse each line to extract student information and group them by field.
       lines.slice(1).forEach((line) => {
-        const [firstname, lastname, , field] = line.split(',');
+        const [firstname, , , field] = line.split(',');
         if (field) {
           if (!studentData[field]) {
             studentData[field] = [];

@@ -38,8 +38,8 @@ class StudentsController {
     if (major !== 'CS' && major !== 'SWE') {
       res.status(500).send('Major parameter must be CS or SWE');
     } else {
-      // Read the database using the third command line argument (process.argv[2).
-      readDatabase(process.argv[2])
+      // Use a relative path to database.csv
+      readDatabase('./database.csv')
         .then((data) => {
           // Filter students with the specified major.
           const students = data

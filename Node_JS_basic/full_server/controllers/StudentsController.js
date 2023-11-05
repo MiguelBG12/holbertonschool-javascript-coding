@@ -11,7 +11,8 @@ class StudentsController {
         // Process the data to get the list of students by field of study.
         const students = data
           .reduce((acc, curr) => {
-            const [firstname, , , field] = curr;
+            const firstname = curr[0];
+            const field = curr[3];
             if (!acc[field]) {
               acc[field] = [];
             }
@@ -21,8 +22,7 @@ class StudentsController {
 
         // Send a response with the list of students by field of study.
         res.status(200).send(`This is the list of our students\n${
-          Object.keys(students).map((key) => `Number of students in ${key}: ${
-            students[key].length}. List: ${students[key].join(', ')}`).join('\n')}`);
+          Object.keys(students).map((key) => `Number of students in ${key}: ${students[key].length}. List: ${students[key].join(', ')}`).join('\n')}`);
       })
       .catch(() => {
         // If there's an error loading the database, send an error response.
@@ -38,8 +38,8 @@ class StudentsController {
     if (major !== 'CS' && major !== 'SWE') {
       res.status(500).send('Major parameter must be CS or SWE');
     } else {
-      // Use a relative path to database.csv
-      readDatabase('./database.csv')
+      // Read the database using the third command line argument (process.argv[2).
+      readDatabase(process.argv[2])
         .then((data) => {
           // Filter students with the specified major.
           const students = data

@@ -20,9 +20,9 @@ class StudentsController {
           }, {});
 
         // Send a response with the list of students by field of study.
-        res.status(200).send('This is the list of our students\n' +
+        res.status(200).send(`This is the list of our students\n${
           Object.keys(students).map((key) => `Number of students in ${key}: ${
-            students[key].length}. List: ${students[key].join(', ')}`).join('\n'));
+            students[key].length}. List: ${students[key].join(', ')}`).join('\n')}`);
       })
       .catch(() => {
         // If there's an error loading the database, send an error response.

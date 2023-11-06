@@ -1,12 +1,14 @@
-import express from 'express';
 import AppController from '../controllers/AppController';
 import StudentsController from '../controllers/StudentsController';
 
-const router = express.Router();
+// Define a function 'mapRoutes' that takes an 'app' object as a parameter.
+const mapRoutes = (app) => {
+  // Map routes to controller methods by defining HTTP GET endpoints.
+  app.get('/', AppController.getHomepage);
+  app.get('/students', StudentsController.getAllStudents);
+  app.get('/students/:major', StudentsController.getAllStudentsByMajor);
+};
 
-// Define routes and link them to controllers
-router.get('/', AppController.getHomepage);
-router.get('/students', StudentsController.getAllStudents);
-router.get('/students/:major', StudentsController.getAllStudentsByMajor);
-
-export default router;
+// Export the 'mapRoutes' function to be used elsewhere.
+export default mapRoutes;
+module.exports = mapRoutes;

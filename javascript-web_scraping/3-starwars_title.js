@@ -31,7 +31,7 @@ request.get(url, (error, response, body) => {
     console.error(
         `Error: Failed to retrieve movie data. Status code: ${
           response.statusCode
-        }`,
+        }`
     );
     process.exit(1);
   }
